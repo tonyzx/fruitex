@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tz %}
+
+{% localtime on %}
+
+{% block content %}
+
+<h1>Delivery Windows</h1>
+<ul>
+  {% for delivery_window in delivery_windows %}
+  <li>
+    <div>
+      <a href="{% url 'delivery:detail' delivery_window.id %}">
+        {{ delivery_window.store }}: {{ delivery_window }} ({{ delivery_window.orders.count }} orders)
+      </a>
+    </div>
+    <ul>
+      {% for order in delivery_window.orders.all %}
+      <li>
+        <div>
+          <a href="{% url 'order:show' order.invoice.id %}">
+            Order {{ order }}: {{ order.get_status_display }} ({{ order.items.count }} items)
+          </a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% endlocaltime %}

@@ -1,16 +1,14 @@
 # Django settings for fruitex project.
-import environment
-import paypal
 import os
 
 # Environment values
-DEBUG = environment.DEBUG
-TEMPLATE_DEBUG = DEBUG
-BASE_DIR = environment.BASE_DIR
+from environment import *
 
 # Django-paypal required values
-PAYPAL_RECEIVER_EMAIL = paypal.PAYPAL_RECEIVER_EMAIL
-MERCHANT_ID = paypal.MERCHANT_ID
+from paypal import *
+
+# Email values
+from email import *
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -21,7 +19,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(environment.BASE_DIR, environment.DB_FILE),
+        'NAME': os.path.join(BASE_DIR, DB_FILE),
     }
 }
 
@@ -33,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Toronto'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -76,7 +74,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(environment.BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "static"),
 )
 
 # List of finder classes that know how to find static files in
@@ -117,26 +115,27 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(environment.BASE_DIR, "ntemplates"),
+    os.path.join(BASE_DIR, "ntemplates"),
 )
 
 INSTALLED_APPS = (
-    'paypal.standard.ipn',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
+    # Django admin
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    # Paypal
+    'paypal.standard.ipn',
+    # Vendor
     'gunicorn',
     'compressor',
-    'home',
-    'cart',
+    # Apps
     'shop',
+    'order',
 )
 
 # A sample logging configuration. The only tangible logging
